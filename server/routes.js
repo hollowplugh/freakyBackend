@@ -6,7 +6,7 @@
 
 const express = require('express');
 const passport = require('passport');
-const formidable = require('express-formidable');
+//const formidable = require('express-formidable');
 
 // Import controllers ================
 const user = require('./controllers/user');
@@ -27,7 +27,7 @@ router.post('/api/users/update', user.update);
 router.post('/api/users/delete', user.delete);
 router.post('/api/users/setPassword', user.setPassword);
 router.get('/api/uploads/getAll', upload.getAll);
-router.post('/api/uploads/doUpload', formidable(), upload.create);
+router.post('/api/uploads/doUpload', upload.create);
 router.post('/api/uploads/getById', upload.getById);
 router.post('/api/uploads/delete', upload.delete);
 
