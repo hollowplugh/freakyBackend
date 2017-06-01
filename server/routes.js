@@ -21,14 +21,15 @@ router.post('/login', auth.doLogin);
 router.get('/logout', auth.logout);
 router.post('/forgotPassword', auth.forgotPassword);
 router.get('/api/users/getAll', user.getAll);
-router.get('/api/users/create', user.create);
-router.get('/api/users/getById', user.getById);
-router.get('/api/users/update', user.update);
-router.get('/api/users/delete', user.delete);
+router.post('/api/users/create', user.create);
+router.post('/api/users/getById', user.getById);
+router.post('/api/users/update', user.update);
+router.post('/api/users/delete', user.delete);
+router.post('/api/users/setPassword', user.setPassword);
 router.get('/api/uploads/getAll', upload.getAll);
-router.get('/api/uploads/doUpload', formidable(), upload.create);
-router.get('/api/uploads/getById', upload.getById);
-router.get('/api/uploads/delete', upload.delete);
+router.post('/api/uploads/doUpload', formidable(), upload.create);
+router.post('/api/uploads/getById', upload.getById);
+router.post('/api/uploads/delete', upload.delete);
 
 module.exports = router;
 

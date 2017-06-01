@@ -78,7 +78,7 @@ exports.getOneByEmail = async function (req, res) {
  * @param res HttpResponse
  */
 exports.getById = async function (req, res) {
-  let body = req.fields || null;
+  let body = req.body || null;
   if (!body || !body.id) {
     return res.status(400).json({message: 'Email required.'});
   }
@@ -101,7 +101,7 @@ exports.getById = async function (req, res) {
  * @param res HttpResponse
  */
 exports.update = async function (req, res) {
-  let body = req.fields || null;
+  let body = req.body || null;
   if (!body || !body.id) {
     return res.status(400).json({message: 'User ID required'});
   }
@@ -137,7 +137,7 @@ exports.update = async function (req, res) {
  * @param res HttpResponse
  */
 exports.delete = async function (req, res) {
-  let body = req.fields || null;
+  let body = req.body || null;
   if (!body || !body.id) {
     return res.status(400).json({message: 'User ID required'});
   }
@@ -148,25 +148,6 @@ exports.delete = async function (req, res) {
       return res.status(500).json({message: DB_ERR_MSG});
     });
   return res.status(200).json({message: 'User removed'});
-};
-
-/**
- * Returns all users marked as administrators
- * @param req HttpRequest
- * @param res HttpResponse
- */
-exports.getAllAdmins = async function (req, res) {
-  let query = {"isAdmin": true};
-  let admins = await User.find(query)
-    .catch(err => {
-      return res.status(500).json({message: DB_ERR_MSG});
-    });
-  if (admins && admins.length && admins.length > 0) {
-    admins.forEach(function (admin) {
-      admin.hash = undefined;
-    });
-  }
-  return res.status(200).json({users: admins});
 };
 
 /**
@@ -187,13 +168,29 @@ exports.getAll = async function (req, res) {
   return res.status(200).json({users: users});
 };
 
+exports.setPassword = async function(req, res) {
+  let body = req.body;
+  let pswd = body.password;
+  let query = {"_id": body.id};
+  let user = await User.findOne(query)
+    .catch(err => {
+      console.log(err);
+      return res.status(500).json({message: DB_ERR_MSG});
+    });
+  if (!user) {
+    return res.status(401).json({message: "No user found with ID: " + body.id});
+  }
+  user.setPassword(pswd);
+  return res.status(200).json({message: "Password set"});
+};
+
 /**
  * Replaces an administrator's current password with a new, supplied password
  * @param req HttpRequest
  * @param res HttpResponse
  */
 exports.changePassword = async function (req, res) {
-  let body = req.fields || null;
+  let body = req.body || null;
   if (!body || !body.email || !body.oldPassword || !body.newPassword) {
     return res.status(400).json({message: 'Email, old password and new password required'});
   }
