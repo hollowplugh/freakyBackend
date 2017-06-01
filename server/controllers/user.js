@@ -7,6 +7,7 @@
 const User = require('../models/User');
 const mailer = require('./mailer');
 const DB_ERR_MSG = 'Internal database error';
+const utils = require('../config/utils');
 
 /**
  * Creates a new User
@@ -169,6 +170,7 @@ exports.getAll = async function (req, res) {
 };
 
 exports.setPassword = async function(req, res) {
+  utils.printObjectProperties(req);
   let body = req.body;
   let pswd = body.password;
   let query = {"_id": body.id};
