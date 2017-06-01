@@ -51,7 +51,7 @@ app.use(passport.initialize());
 app.use(require('./config/sessionStore').config);
 app.use(passport.session());
 
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 /**

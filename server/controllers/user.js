@@ -15,13 +15,7 @@ const utils = require('../config/utils');
  * @param res HttpResponse
  */
 exports.create = async function (req, res) {
-  let body = req.fields || null;
-  if (body) {
-    let validation = validateUserRequest(body);
-    if (validation && validation.errors) {
-      return res.status(400).json({message: validation.errors});
-    }
-  }
+  let body = req.body || null;
   let query = {"email": body.email.toLowerCase()};
   let exists = await User.findOne(query)
     .catch(err => {
