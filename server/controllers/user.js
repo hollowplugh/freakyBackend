@@ -170,8 +170,9 @@ exports.getAll = async function (req, res) {
 };
 
 exports.setPassword = async function(req, res) {
-  //utils.printObjectProperties(req);
-  console.log(">>> " + req.body);
+  console.log('>>> ');
+  utils.printObjectProperties(req.body);
+  //console.log(">>> " + req.body);
   let body = req.body;
   let pswd = body.password;
   let query = {"_id": body.id};
